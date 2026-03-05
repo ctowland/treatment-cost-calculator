@@ -65,52 +65,66 @@ export function TreatmentForm({ treatment, onSave, onCancel }: TreatmentFormProp
         {treatment ? 'Edit Treatment' : 'Add New Treatment'}
       </h2>
       
+      {/* Instructions */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <p className="text-sm text-blue-800">
+          <strong>💡 Tip:</strong> Fill in what you know. The calculator will show you if this treatment is profitable based on your costs vs. what you charge.
+        </p>
+      </div>
+
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Treatment Name</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Treatment Name *</label>
           <input
             type="text"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-            placeholder="e.g., Full Head Highlights"
+            placeholder="e.g., Luxury Full Body Massage"
             required
           />
+          <p className="text-xs text-gray-500 mt-1">Enter the name as it appears on your price list</p>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Current Price (£)</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Current Price (£) *</label>
           <input
             type="number"
             step="0.01"
             value={formData.currentPrice}
             onChange={(e) => setFormData({ ...formData, currentPrice: parseFloat(e.target.value) })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+            placeholder="45.00"
             required
           />
+          <p className="text-xs text-gray-500 mt-1">What you currently charge customers</p>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Time (minutes)</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Time (minutes) *</label>
           <input
             type="number"
             value={formData.timeMinutes}
             onChange={(e) => setFormData({ ...formData, timeMinutes: parseInt(e.target.value) })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+            placeholder="60"
             required
           />
+          <p className="text-xs text-gray-500 mt-1">Total time including prep & cleanup</p>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Staff Hourly Rate (£)</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Staff Hourly Rate (£) *</label>
           <input
             type="number"
             step="0.01"
             value={formData.staffHourlyRate}
             onChange={(e) => setFormData({ ...formData, staffHourlyRate: parseFloat(e.target.value) })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+            placeholder="12.00"
             required
           />
+          <p className="text-xs text-gray-500 mt-1">What you pay the therapist/beautician per hour</p>
         </div>
         
         <div>
@@ -121,8 +135,9 @@ export function TreatmentForm({ treatment, onSave, onCancel }: TreatmentFormProp
             value={formData.overheadPerHour}
             onChange={(e) => setFormData({ ...formData, overheadPerHour: parseFloat(e.target.value) })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-            required
+            placeholder="25.00"
           />
+          <p className="text-xs text-gray-500 mt-1">Rent, utilities, insurance (auto-calculated from Settings)</p>
         </div>
         
         <div>
@@ -133,7 +148,9 @@ export function TreatmentForm({ treatment, onSave, onCancel }: TreatmentFormProp
             value={formData.otherCosts}
             onChange={(e) => setFormData({ ...formData, otherCosts: parseFloat(e.target.value) })}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+            placeholder="0.00"
           />
+          <p className="text-xs text-gray-500 mt-1">Any other costs (towels, disposables, etc.)</p>
         </div>
       </div>
       

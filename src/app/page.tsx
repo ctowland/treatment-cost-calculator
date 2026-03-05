@@ -9,18 +9,25 @@ import { TreatmentForm } from '@/components/TreatmentForm';
 import { PriceCalculator } from '@/components/PriceCalculator';
 import { DashboardStats } from '@/components/DashboardStats';
 import { SettingsForm } from '@/components/SettingsForm';
+import { WelcomeGuide } from '@/components/WelcomeGuide';
 
 export default function Home() {
   const [treatments, setTreatments] = useState<Treatment[]>([]);
   const [settings, setSettings] = useState<SalonSettings | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
   const [editingTreatment, setEditingTreatment] = useState<Treatment | undefined>(undefined);
   const [activeTab, setActiveTab] = useState<'dashboard' | 'calculator'>('dashboard');
 
   useEffect(() => {
-    setTreatments(loadTreatments());
+    const loadedTreatments = loadTreatments();
+    setTreatments(loadedTreatments);
     setSettings(loadSettings());
+    // Show welcome guide if no treatments exist (first visit)
+    if (loadedTreatments.length === 0) {
+      setShowWelcome(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -92,12 +99,20 @@ export default function Home() {
               <h1 className="text-2xl font-bold text-gray-900">Treatment Cost Calculator</h1>
               <p className="text-sm text-gray-500">Find your hidden profit leaks</p>
             </div>
-            <button
-              onClick={() => setShowSettings(true)}
-              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors text-sm font-medium"
-            >
-              Settings
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setShowWelcome(true)}
+                className="px-4 py-2 bg-primary-100 text-primary-700 rounded-md hover:bg-primary-200 transition-colors text-sm font-medium"
+              >
+                ❓ Help
+              </button>
+              <button
+                onClick={() => setShowSettings(true)}
+                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors text-sm font-medium"
+              >
+                Settings
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -170,27 +185,57 @@ export default function Home() {
                 }}
               />
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {calculations.map((calc) => (
-                  <TreatmentCard
-                    key={calc.treatment.id}
-                    calculation={calc}
-                    onEdit={() => handleEditTreatment(calc.treatment)}
-                    onDelete={() => handleDeleteTreatment(calc.treatment.id)}
-                  />
-                ))}
-              </div>
+              <>
+                {/* Quick Add Button - Always visible when not editing */}
+                <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg shadow-lg p-6 mb-6 text-white">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-1">Add a New Treatment</h3>
+                      <p className="text-primary-100 text-sm">
+                        Enter your treatment details to see if you're pricing it profitably
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setEditingTreatment(undefined);
+                        setShowForm(true);
+                      }}
+                      className="px-6 py-3 bg-white text-primary-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold shadow-md whitespace-nowrap"
+                    >
+                      + Add New Treatment
+                    </button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {calculations.map((calc) => (
+                    <TreatmentCard
+                      key={calc.treatment.id}
+                      calculation={calc}
+                      onEdit={() => handleEditTreatment(calc.treatment)}
+                      onDelete={() => handleDeleteTreatment(calc.treatment.id)}
+                    />
+                  ))}
+                </div>
+              </>
             )}
 
             {calculations.length === 0 && !showForm && (
-              <div className="text-center py-12 bg-white rounded-lg shadow-sm">
-                <p className="text-gray-500 mb-4">No treatments added yet</p>
+              <div className="text-center py-16 bg-white rounded-lg shadow-sm border-2 border-dashed border-gray-300">
+                <div className="text-6xl mb-4">💅</div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">No Treatments Added Yet</h3>
+                <p className="text-gray-500 mb-6 max-w-md mx-auto">
+                  Start by adding your most popular treatment. You'll see instantly whether you're pricing it profitably!
+                </p>
                 <button
                   onClick={() => setShowForm(true)}
-                  className="px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 transition-colors font-medium"
+                  className="px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors font-semibold text-lg"
                 >
-                  Add Your First Treatment
+                  + Add Your First Treatment
                 </button>
+                <p className="text-sm text-gray-400 mt-4">
+                  Popular first entries: Full Body Massage, Facial, Manicure, Hair Cut & Style
+                </p>
               </div>
             )}
           </>
@@ -218,6 +263,17 @@ export default function Home() {
             />
           </div>
         </div>
+      )}
+
+      {/* Welcome Guide Modal */}
+      {showWelcome && (
+        <WelcomeGuide 
+          onClose={() => setShowWelcome(false)} 
+          onAddTreatment={() => {
+            setShowWelcome(false);
+            setShowForm(true);
+          }}
+        />
       )}
 
       {/* Footer */}
