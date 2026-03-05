@@ -102,7 +102,7 @@ export default function Home() {
             <div className="flex gap-2">
               <button
                 onClick={() => setShowWelcome(true)}
-                className="px-4 py-2 bg-primary-100 text-primary-700 rounded-md hover:bg-primary-200 transition-colors text-sm font-medium"
+                className="px-4 py-2 bg-sky-100 text-sky-800 rounded-md hover:bg-sky-200 transition-colors text-sm font-semibold border border-sky-200"
               >
                 ❓ Help
               </button>
@@ -122,20 +122,20 @@ export default function Home() {
         <div className="flex gap-4 mb-6">
           <button
             onClick={() => setActiveTab('dashboard')}
-            className={`px-4 py-2 rounded-md font-medium transition-colors ${
+            className={`px-4 py-2 rounded-md font-semibold transition-colors ${
               activeTab === 'dashboard'
-                ? 'bg-primary-500 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                ? 'bg-sky-600 text-white shadow-md'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
             }`}
           >
             Dashboard
           </button>
           <button
             onClick={() => setActiveTab('calculator')}
-            className={`px-4 py-2 rounded-md font-medium transition-colors ${
+            className={`px-4 py-2 rounded-md font-semibold transition-colors ${
               activeTab === 'calculator'
-                ? 'bg-primary-500 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                ? 'bg-sky-600 text-white shadow-md'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
             }`}
           >
             Price Calculator
@@ -163,13 +163,13 @@ export default function Home() {
             <DashboardStats calculations={calculations} />
 
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold text-gray-900">Your Treatments</h2>
+              <h2 className="text-xl font-bold text-gray-900">Your Treatments</h2>
               <button
                 onClick={() => {
                   setEditingTreatment(undefined);
                   setShowForm(true);
                 }}
-                className="px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 transition-colors font-medium"
+                className="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 transition-colors font-semibold shadow-sm"
               >
                 + Add Treatment
               </button>
@@ -187,11 +187,11 @@ export default function Home() {
             ) : (
               <>
                 {/* Quick Add Button - Always visible when not editing */}
-                <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg shadow-lg p-6 mb-6 text-white">
+                <div className="bg-gradient-to-r from-sky-600 to-blue-700 rounded-lg shadow-lg p-6 mb-6">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                      <h3 className="text-lg font-semibold mb-1">Add a New Treatment</h3>
-                      <p className="text-primary-100 text-sm">
+                      <h3 className="text-lg font-bold text-white mb-1">Add a New Treatment</h3>
+                      <p className="text-sky-100 text-sm">
                         Enter your treatment details to see if you're pricing it profitably
                       </p>
                     </div>
@@ -200,7 +200,7 @@ export default function Home() {
                         setEditingTreatment(undefined);
                         setShowForm(true);
                       }}
-                      className="px-6 py-3 bg-white text-primary-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold shadow-md whitespace-nowrap"
+                      className="px-6 py-3 bg-white text-sky-700 rounded-lg hover:bg-gray-100 transition-colors font-bold shadow-md whitespace-nowrap"
                     >
                       + Add New Treatment
                     </button>
@@ -229,7 +229,7 @@ export default function Home() {
                 </p>
                 <button
                   onClick={() => setShowForm(true)}
-                  className="px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors font-semibold text-lg"
+                  className="px-6 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors font-bold text-lg shadow-md"
                 >
                   + Add Your First Treatment
                 </button>
